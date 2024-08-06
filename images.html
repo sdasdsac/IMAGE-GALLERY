@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Light gray background */
+        }
+
+        .welcome {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px; /* Reduced padding */
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+            font-size: 2em; /* Reduced font size */
+            font-weight: bold;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease, visibility 1s ease;
+            z-index: 10; /* Ensure it's above other content */
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 90%;
+            max-width: 800px; /* Adjusted max-width */
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 80px; /* Adjusted margin-top */
+        }
+
+        .gallery {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .gallery-image {
+            min-width: 100%;
+            height: auto;
+            object-fit: cover;
+            max-height: 500px; /* Reduced max-height */
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #333;
+        }
+
+        .controls button {
+            background-color: #fff;
+            border: none;
+            padding: 10px 20px; /* Reduced padding */
+            cursor: pointer;
+            font-size: 1em; /* Normal font size */
+            border-radius: 5px; /* Slightly rounded corners */
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        }
+
+        .controls button:hover {
+            background-color: #ddd;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+        }
+
+        .controls input {
+            padding: 8px;
+            font-size: 1em; /* Normal font size */
+            border: none;
+            border-radius: 5px; /* Slightly rounded corners */
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                width: 95%;
+            }
+
+            .controls button {
+                font-size: 0.9em;
+                padding: 8px 16px;
+            }
+
+            .controls input {
+                font-size: 0.9em;
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome" id="welcomeMessage">
+        <h1>Welcome to the Art Gallery</h1>
+        <p>Enjoy exploring the collection!</p>
+    </div>
+    <div class="gallery-container">
+        <div class="gallery">
+            <img class="gallery-image" src="gallery/image1.png" alt="Image 1">
+            <img class="gallery-image" src="gallery/image2.png" alt="Image 2">
+            <img class="gallery-image" src="gallery/image3.png" alt="Image 3">
+            <img class="gallery-image" src="gallery/image4.png" alt="Image 4">
+            <img class="gallery-image" src="gallery/image5.png" alt="Image 5">
+            <img class="gallery-image" src="gallery/image6.png" alt="Image 6">
+            <img class="gallery-image" src="gallery/image7.png" alt="Image 7">
+            <img class="gallery-image" src="gallery/image8.png" alt="Image 8">
+            <img class="gallery-image" src="gallery/image9.png" alt="Image 9">
+            <img class="gallery-image" src="gallery/image10.png" alt="Image 10">
+            <img class="gallery-image" src="gallery/image11.png" alt="Image 11">
+            <img class="gallery-image" src="gallery/image12.png" alt="Image 12">
+            <img class="gallery-image" src="gallery/image13.png" alt="Image 13">
+            <img class="gallery-image" src="gallery/image14.png" alt="Image 14">
+            <img class="gallery-image" src="gallery/image15.png" alt="Image 15">
+        </div>
+        <div class="controls">
+            <button onclick="prevImage()">Previous</button>
+            <input type="number" id="imageIndex" min="1" max="15" placeholder="Enter image number">
+            <button onclick="goToImage()">Go</button>
+            <button onclick="nextImage()">Next</button>
+        </div>
+    </div>
+    <script>
+        let currentImageIndex = 0;
+        const totalImages = document.querySelectorAll('.gallery-image').length;
+
+        function showImage(index) {
+            const gallery = document.querySelector('.gallery');
+            
+            if (index >= totalImages) {
+                currentImageIndex = 0;
+            } else if (index < 0) {
+                currentImageIndex = totalImages - 1;
+            } else {
+                currentImageIndex = index;
+            }
+
+            const offset = -currentImageIndex * 100;
+            gallery.style.transform = `translateX(${offset}%)`;
+        }
+
+        function nextImage() {
+            showImage(currentImageIndex + 1);
+        }
+
+        function prevImage() {
+            showImage(currentImageIndex - 1);
+        }
+
+        function goToImage() {
+            const index = parseInt(document.getElementById('imageIndex').value, 10);
+            if (index >= 1 && index <= totalImages) {
+                showImage(index - 1);
+            } else {
+                alert('Please enter a valid image number between 1 and 15.');
+            }
+        }
+
+        // Show welcome message for a few seconds before hiding it
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const welcomeMessage = document.getElementById('welcomeMessage');
+                welcomeMessage.style.opacity = '0';
+                welcomeMessage.style.visibility = 'hidden';
+            }, 3000); // Show the welcome message for 3 seconds
+        });
+    </script>
+</body>
+</html>
